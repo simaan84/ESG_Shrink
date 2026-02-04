@@ -4,8 +4,8 @@ library(lubridate)
 rm(list = ls())
 
 # save the data files to ESG and return based
-esg_clean_file <- "/home/simaan/Dropbox/Data/DATA/ESG_Refinitiv_2024_clean.csv"
-crsp_clean_file <- "/home/simaan/Dropbox/Data/DATA/ESG_CRSP_d_2024_clean.csv"
+esg_clean_file <- "ESG_Refinitiv_2024_clean.csv"
+crsp_clean_file <- "ESG_CRSP_d_2024_clean.csv"
 
 
 ############################################################################
@@ -22,7 +22,7 @@ if(CLEAN_DATA){
   ######### ESG ##########
   ########################
   
-  ESG_file <- "/home/simaan/Dropbox/Data/DATA/ESG_Refinitiv_2024_full.csv"
+  ESG_file <- "ESG_Refinitiv_2024_full.csv"
   SG <- fread(ESG_file)
   SG$Cusip <- SG$cusip;   SG$cusip <- NULL
   # ADJUST THE CUSIPS TO MERGE WITH CRSP
@@ -71,14 +71,14 @@ if(CLEAN_DATA){
   ######### CRSP ##########
   #########################
   
-  crsp_file <- "/home/simaan/Dropbox/Data/DATA/CRSP_1960_2023_d.csv" # daily CRSP file
+  crsp_file <- "CRSP_1960_2023_d.csv" # daily CRSP file
   select.var <- c("PERMNO","date","EXCHCD","SHRCD","RET","PRC","CUSIP","SICCD","SHROUT")
   DT  <- fread(crsp_file,select = select.var)
   
   crsp_cusips <- unique(DT$CUSIP)
   table(nchar(crsp_cusips))
   
-  # there seems to be 75% of the ESG data in the CRSP, which has to do with data as well
+  # There seems to be 75% of the ESG data in the CRSP, which has to do with data as well
   mean(keep_cusips %in% crsp_cusips)
   
   DT <- DT[DT$CUSIP %in% keep_cusips,]
@@ -119,7 +119,7 @@ if(CLEAN_DATA){
   DT <- unique(DT)
   
   
-  # the minimum data for the ESG data is 2002-12-31
+  # The minimum data for the ESG data is 2002-12-31
   EG_min_year <- year(min(SG$date)) 
   keep_years <- (EG_min_year - 5 + 1):year(max(SG$date)) 
   
@@ -135,7 +135,7 @@ if(!CLEAN_DATA) {
   SG <- fread(esg_clean_file)
   DT <- fread(crsp_clean_file)
   
-  # the minimum data for the ESG data is 2002-12-31
+  # The minimum data for the ESG data is 2002-12-31
   EG_min_year <- year(min(SG$date)) 
   keep_years <- (EG_min_year - 5 + 1):year(max(SG$date)) 
   
