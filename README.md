@@ -1,4 +1,4 @@
-# Balancing Returns and Responsibility: Evidence from Shrinkage-Based Portfolios (R Code)
+# Balancing Returns and Responsibility: Evidence from Shrinkage-Based Portfolios
 
 This repository contains R code to reproduce the analyses in:
 
