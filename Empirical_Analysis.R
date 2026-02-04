@@ -29,8 +29,8 @@ run_factor <-  FALSE # <- Needs to run once, and then it's saved to the hard dri
 USE_SR <- FALSE # sensitivity analysis to run for Sharpe portfolio instead of GMVP
 
 # save the data files to ESG and return based
-esg_clean_file <- "/home/simaan/Dropbox/Data/DATA/ESG_Refinitiv_2024_clean.csv" # provide on Google Drive
-crsp_clean_file <- "/home/simaan/Dropbox/Data/DATA/ESG_CRSP_d_2024_clean.csv" # provided on Google Drive
+esg_clean_file <- "ESG_Refinitiv_2024_clean.csv" # provided on Google Drive
+crsp_clean_file <- "ESG_CRSP_d_2024_clean.csv" # provided on Google Drive
 
 ############################################################################
 
@@ -41,7 +41,7 @@ esg_scores <- c("ESGScore","EnvironmentPillarScore",
 SG <- fread(esg_clean_file) 
 DT <- fread(crsp_clean_file)
 
-# the minimum data for the ESG data is 2002-12-31
+# The minimum data for the ESG data is 2002-12-31
 EG_min_year <- year(min(SG$date)) 
 keep_years <- (EG_min_year - 5 + 1):year(max(SG$date)) 
 
@@ -55,7 +55,7 @@ keep_years <- (EG_min_year - 5 + 1):year(max(SG$date))
   # load the data
   DT_choose <- DT
   SG_choose <- SG
-  # these are fiscal years. make sure the data is available by time
+  # these are fiscal years. Make sure the data is available on time
   range(SG_choose$date)
   SG_choose$date <- date(SG_choose$date)
   SG_choose$date <- ceiling_date(SG_choose$date + 1,"y")-1 # <---- shift data by on year
@@ -162,7 +162,7 @@ fwrite(DT_panel,"DT_Panel.csv") # save final panel
 ###############################################################################
 
 ############################################################
-######### EXPLORING MECHANSIMS THORUGH VAR #################
+######### EXPLORING MECHANISMS THROUGH VAR #################
 
 
 RUN_PVAR <- FALSE # <----- portfolio results do not depend on this one
@@ -395,7 +395,7 @@ T_years <- 5
 back_test_years <- (final_years[1] - T_years):(max(final_years))
 TC <- 20/(100^2) # 20 bps in line with KWZ
 
-# to avoid repetitions, make sure we have year for DT_choose
+# to avoid repetitions, make sure we have a year for DT_choose
 DT_choose$year <- year(DT_choose$date)
 
 # put altogether in a single function
@@ -435,7 +435,7 @@ main_backtest_function <- function(seed = 1,N_sample = 200,TC) {
         # now that we identified the cusips for that year, let's cast the returns and ESG scores
         next_year <- y_i+1
         
-        # keep the training and next years for computational efficiency
+        # keep the training and next year's for computational efficiency
         RET_sample <- DT_choose[DT_choose$year %in% c(train_years,next_year),]
         RET_sample <- RET_sample[RET_sample$CUSIP %in% sample_cusips,]
         RET_sample <- dcast.data.table(RET_sample,date~CUSIP, value.var = "RET")
